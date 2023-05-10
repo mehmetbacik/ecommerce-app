@@ -32,3 +32,8 @@
     display: flex;
     gap: 10px;
 }
+
+.logo {
+    font-weight: bold;
+    color: blue;
+}
