@@ -1,6 +1,6 @@
 import axios from "axios";
-export const fetchProductList = async () => {
-	/*const { data } = await axios.get(`${proces.env.REACT_APP_BASE_ENDPOINT/product}`);*/
+export const fetchProductList = async ({ pageParam = 1 }) => {
+	/*const { data } = await axios.get(`${proces.env.REACT_APP_BASE_ENDPOINT/product?page=${pageParam}`);*/
 	const { data } = await axios.get("https://jsonplaceholder.typicode.com/users");
 	return data;
 };
