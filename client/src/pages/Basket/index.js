@@ -1,11 +1,25 @@
-import React from "react";
+import {useRef, useState} from "react";
 import {useBasket} from "../../contexts/BasketContext";
-import {Alert, Button, Image, Box, Text} from "@chakra-ui/react";
-import {Link} from "react-router-dom";
+import {Alert, Button, Image, Box, Text, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, useDisclosure, FormControl, FormLabel, Textarea} from "@chakra-ui/react";
+import { Link } from "react-router-dom";
+import { postOrder } from "../../api";
 
 function Basket() {
-    const {items, removeFromBasket} = useBasket();
+    const [address, setAdress] = useState('');
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const initialRef = useRef(null);
+    const {items, removeFromBasket, emptyBasket} = useBasket();
     const total = items.reduce((acc, obj) => acc + obj.price, 0);
+    const handleSubmitForm = async () => {
+        const itemIds = items.map((item) => item._id);
+        const input = {
+            address,
+            items: JSON.stringify(itemIds),
+        };
+        await postOrder(input);
+        emptyBasket();
+        onClose();
+    };
 
     return <Box p="5">
         {items.length < 1 && (<Alert status="warning">You have not any items in your basket.</Alert>)}
@@ -32,6 +46,31 @@ function Basket() {
                         Total: {total} TL
                     </Text>
                 </Box>
+                <Button mt="2" size="sm" colorScheme="green" onClick={onOpen}>Order</Button>
+                <Modal
+                    initialFocusRef={initialRef}
+                    isOpen={isOpen}
+                    onClose={onClose}
+                >
+                    <ModalOverlay />
+                    <ModalContent>
+                    <ModalHeader>Order</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody pb={6}>
+                        <FormControl>
+                        <FormLabel>Adress</FormLabel>
+                        <Textarea ref={initialRef} placeholder='Adress' value={address} onChange={(e) => setAdress(e.target.value)}/>
+                        </FormControl>
+                    </ModalBody>
+
+                    <ModalFooter>
+                        <Button colorScheme='blue' mr={3} onClick={handleSubmitForm}>
+                        Save
+                        </Button>
+                        <Button onClick={onClose}>Cancel</Button>
+                    </ModalFooter>
+                    </ModalContent>
+                </Modal>
                 </>
             )
         }
