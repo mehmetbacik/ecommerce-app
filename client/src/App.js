@@ -8,6 +8,7 @@ import Register from './pages/Auth/Register';
 import Profile from './pages/Profile';
 import Basket from './pages/Basket';
 import Error404 from './pages/Error404';
+import Admin from './pages/Admin';
 import ProtectedRoute from './pages/ProtectedRoute';
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
             <Route path="/Register" element={<Register />} />
             <Route path="/Basket" element={<Basket />} />
             <ProtectedRoute path="/Profile" element={<Profile />} />
+            <ProtectedRoute path="/Admin" element={<Admin />} admin={true}/>
             <Route path="*" element={<Error404 />} />
           </Routes>
         </div>
