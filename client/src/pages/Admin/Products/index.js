@@ -1,10 +1,34 @@
 import React from "react";
 import { useQuery } from 'react-query';
 import { fetchProductList } from '../../../api';
-import { DatePicker } from 'antd';
+import {Text} from '@chakra-ui/react';
+import { Table } from 'antd';
 
 function Products() {
     const {isLoading, isError, data, error} = useQuery('admin:products', fetchProductList);
+
+    const columns = [
+        {
+            title: 'Title',
+            dataIndex: 'title',
+            key: 'title',
+        },
+        {
+            title: 'Price',
+            dataIndex: 'price',
+            key: 'price',
+        },
+        {
+            title: 'Created At',
+            dataIndex: 'createdAt',
+            key: 'createdAt',
+        },
+        {
+            title: 'Action',
+            key: 'action',
+            render: () => <div>Test</div>,
+        },
+    ];
 
     if (isLoading) {
         return <div>Loading...</div>
@@ -16,7 +40,8 @@ function Products() {
 
     return (
         <div>
-            Products
+            <Text fontSize="2xl" p="5">Products</Text>
+            <Table dataSource={data} columns={columns} rowKey="_id"/>
         </div>
     );
 };
