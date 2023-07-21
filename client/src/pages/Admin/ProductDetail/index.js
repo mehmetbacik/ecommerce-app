@@ -2,7 +2,7 @@ import React from "react";
 import { useParams } from 'react-router-dom';
 import { fetchProduct } from '../../../api';
 import { useQuery } from 'react-query';
-import { Text, Box, FormControl, FormLabel, Input } from '@chakra-ui/react';
+import { Text, Box, FormControl, FormLabel, Input, Textarea } from '@chakra-ui/react';
 import { Formik } from 'formik';
 
 function ProductDetail() {
@@ -43,6 +43,30 @@ function ProductDetail() {
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                         value={values.title}
+                                        disabled={isSubmitting}
+                                    />
+                                </FormControl>
+                                <FormControl mt="4">
+                                    <FormLabel>
+                                        Description
+                                    </FormLabel>
+                                    <Textarea 
+                                        name="description"
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        value={values.description}
+                                        disabled={isSubmitting}
+                                    />
+                                </FormControl>
+                                <FormControl mt="4">
+                                    <FormLabel>
+                                        Price
+                                    </FormLabel>
+                                    <Input 
+                                        name="price"
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        value={values.price}
                                         disabled={isSubmitting}
                                     />
                                 </FormControl>
