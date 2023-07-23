@@ -3,7 +3,8 @@ import { useParams } from 'react-router-dom';
 import { fetchProduct } from '../../../api';
 import { useQuery } from 'react-query';
 import { Text, Box, FormControl, FormLabel, Input, Textarea } from '@chakra-ui/react';
-import { Formik } from 'formik';
+import { Formik, FieldArray } from 'formik';
+import { Button } from "antd";
 
 function ProductDetail() {
     const {product_id} = useParams();
@@ -26,7 +27,7 @@ function ProductDetail() {
                 price: data.price,
                 photos: data.photos,
             }}
-            validationSchema={}
+            validationSchema={validationSchema}
             onSubmit={handleSubmit}
         >
             {
@@ -68,6 +69,30 @@ function ProductDetail() {
                                         onBlur={handleBlur}
                                         value={values.price}
                                         disabled={isSubmitting}
+                                    />
+                                </FormControl>
+                                <FormControl mt="4">
+                                    <FormLabel>
+                                        Photos
+                                    </FormLabel>
+                                    <FieldArray 
+                                        name="photos"
+                                        render={(arrayHelpers) => (
+                                            <div>
+                                                {
+                                                    values.photos && values.photos.map((photo, index) => (
+                                                        <div key={index}>
+                                                            <Input 
+                                                                name={`photos.${index}`}
+                                                                value={photo}
+                                                                disabled={isSubmitting}
+                                                                onChange={handleChange}
+                                                            />
+                                                        </div>
+                                                    ))
+                                                }
+                                            </div>
+                                        )}
                                     />
                                 </FormControl>
                             </form>
