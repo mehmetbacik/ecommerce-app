@@ -2,9 +2,8 @@ import React from "react";
 import { useParams } from 'react-router-dom';
 import { fetchProduct } from '../../../api';
 import { useQuery } from 'react-query';
-import { Text, Box, FormControl, FormLabel, Input, Textarea } from '@chakra-ui/react';
+import { Text, Box, FormControl, FormLabel, Input, Textarea, Button } from '@chakra-ui/react';
 import { Formik, FieldArray } from 'formik';
-import { Button } from "antd";
 
 function ProductDetail() {
     const {product_id} = useParams();
@@ -87,10 +86,15 @@ function ProductDetail() {
                                                                 value={photo}
                                                                 disabled={isSubmitting}
                                                                 onChange={handleChange}
+                                                                width="3xl"
                                                             />
+                                                            <Button mt="4" type="button" colorScheme="red" onClick={() => arrayHelpers.remove(index)}>
+                                                                Remove
+                                                            </Button>
                                                         </div>
                                                     ))
                                                 }
+                                                <Button mt="5" onClick={() => arrayHelpers.push('')}>Add a Photo</Button>
                                             </div>
                                         )}
                                     />
