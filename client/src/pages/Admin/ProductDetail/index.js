@@ -5,6 +5,7 @@ import { useQuery } from 'react-query';
 import { Text, Box, FormControl, FormLabel, Input, Textarea, Button } from '@chakra-ui/react';
 import { Formik, FieldArray } from 'formik';
 import validationSchema from './validations';
+import { message } from 'antd';
 
 function ProductDetail() {
     const {product_id} = useParams();
@@ -16,8 +17,18 @@ function ProductDetail() {
         return <div>Error {error.message}</div>
     }
     const handleSubmit = async (values, bag) => {
-
-    }
+        message.loading({content: "Loading...", key: "product_update"});
+        try{
+            await updateProduct(values, product_id);
+            message.success({
+                content: 'The product successfully updated.',
+                key: 'product_update',
+                duration: 2,
+            })
+        }catch(e){
+            message.error('The product does not updated.');
+        }
+    };
 	return <div>
         <Text fontSize="2xl">Edit</Text>
         <Formik 
@@ -45,7 +56,9 @@ function ProductDetail() {
                                         onBlur={handleBlur}
                                         value={values.title}
                                         disabled={isSubmitting}
+                                        isInvalid={touched.title && errors.title}
                                     />
+                                    {touched.title && errors.title && <Text color="red.500">{errors.title}</Text>}
                                 </FormControl>
                                 <FormControl mt="4">
                                     <FormLabel>
@@ -57,7 +70,9 @@ function ProductDetail() {
                                         onBlur={handleBlur}
                                         value={values.description}
                                         disabled={isSubmitting}
+                                        isInvalid={touched.description && errors.description}
                                     />
+                                    {touched.description && errors.description && <Text color="red.500">{errors.description}</Text>}
                                 </FormControl>
                                 <FormControl mt="4">
                                     <FormLabel>
@@ -69,7 +84,9 @@ function ProductDetail() {
                                         onBlur={handleBlur}
                                         value={values.price}
                                         disabled={isSubmitting}
+                                        isInvalid={touched.price && errors.price}
                                     />
+                                    {touched.price && errors.price && <Text color="red.500">{errors.price}</Text>}
                                 </FormControl>
                                 <FormControl mt="4">
                                     <FormLabel>
