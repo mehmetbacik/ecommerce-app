@@ -1,9 +1,10 @@
 import React from "react";
 import { useParams } from 'react-router-dom';
-import { fetchProduct } from '../../../api';
+import { fetchProduct, updateProduct } from '../../../api';
 import { useQuery } from 'react-query';
 import { Text, Box, FormControl, FormLabel, Input, Textarea, Button } from '@chakra-ui/react';
 import { Formik, FieldArray } from 'formik';
+import validationSchema from './validations';
 
 function ProductDetail() {
     const {product_id} = useParams();
@@ -14,7 +15,7 @@ function ProductDetail() {
     if (isError) {
         return <div>Error {error.message}</div>
     }
-    const handleSubmit = () => {
+    const handleSubmit = async (values, bag) => {
 
     }
 	return <div>
@@ -99,6 +100,7 @@ function ProductDetail() {
                                         )}
                                     />
                                 </FormControl>
+                                <Button mt="4" width="full" type="submit" isLoading={isSubmitting}>Update</Button>
                             </form>
                         </Box>
                     </Box>
