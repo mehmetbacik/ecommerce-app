@@ -8,17 +8,25 @@ import { message } from 'antd';
 
 function NewProduct() {
     const queryClient = useQueryClient();
-
     const newProductMutation = useMutation(postProduct, {
         onSuccess: () => queryClient.invalidateQueries('admin:products'),
     });
 
     const handleSubmit = async (values, bag) => {
         message.loading({content: "Loading...", key: "product_update"});
-        newProductMutation.mutate(values, {
+        const newValues = {
+            ...values,
+            photos: JSON.stringfy(values.photos),
+        }
+        newProductMutation.mutate(newValues, {
             onSuccess: () => {
-                alert('Add');
-        },
+                message.success({
+                    content: 'The product successfully updated.',
+                    key: 'product_update',
+                    duration: 2,
+                }),
+            },
+        }),
     };
 
 	return <div>
